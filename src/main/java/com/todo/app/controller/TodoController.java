@@ -103,7 +103,12 @@ public class TodoController {
 		updateList(model);
 		return "Todo-list";
 	}
-
+	
+	@GetMapping("/add")
+	public String addForm(TodoForm todoForm, Model model) {
+		return "Todo-add";
+	}
+	
 	// Todo追加
 	@PostMapping("/add")
 	public String add(

@@ -23,13 +23,25 @@ main {
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-.center-main {
+footer {
+  background-color: rgba(0,0,0,0.1);
+  margin: 40px auto;
+  padding: 30px;
+  text-align: center;
+}
+
+.login-center-main {
 	max-width: 400px;
+}
+
+.task-center-main {
+	max-width: 60%;
 }
 
 /* 入力欄のスタイル */
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="date"] {
   width: 100%;
   padding: 12px;
   margin: 10px 0;

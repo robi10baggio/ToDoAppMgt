@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>TODO管理システム</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+  <header>
+  <h1>新しいタスクを追加</h1>
+  </header>
+  <body>
+	<main class="task-center-main">
+		<div>
+		  	<table>
+			  <form method="post" th:action="@{/todo/add}" th:object="${todoForm}">
+				<tr>
+					<th>タスク内容</th>
+					<td><textarea th:field="*{taskContent}" rows="5" cols="40"></textarea><span th:errors="*{taskContent}" th:class="error"></span>
+				</tr>
+				<tr>
+					<th>期日</th>
+					<td><input type="date" th:field="*{dueDate} "/><span th:errors="*{dueDate}" th:class="error"></span></td>
+				</tr>
+				<tr><td><button>追加</button></td></tr>
+			  </form>
+			</table>
+		</div>
+		<div>
+			<a th:href="@{/todo/list}">タスク一覧に戻る</a>
+		</div>
+	</main>	
+	<footer>
+		<a href="/logout">ログアウト</a>
+  	</footer>
+</body>
+</html>

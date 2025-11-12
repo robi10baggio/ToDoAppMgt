@@ -9,7 +9,7 @@
 	<header>
 		<h1>ログイン</h1>
 	</header>
-	<main class="center-main">
+	<main class="login-center-main">
 		<form th:action="@{/login}" method="post" th:object="${loginForm}">
 			<input type="text" th:field="*{userId}" placeholder="ユーザID"><span th:errors="*{userId}" th:class="error"></span>
 			<input type="password" th:field="*{password}" placeholder="パスワード"><span th:errors="*{password}" th:class="error"></span>
