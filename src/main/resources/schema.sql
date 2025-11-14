@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS teams CASCADE ;
 DROP TABLE IF EXISTS users CASCADE ;
-DROP TABLE IF EXISTS todos CASCADE ;
+DROP TABLE IF EXISTS tasks CASCADE ;
 
 CREATE TABLE teams(
 	id 			SERIAL PRIMARY KEY,
@@ -16,7 +16,7 @@ CREATE TABLE users(
 );
 
 
-CREATE TABLE todos(
+CREATE TABLE tasks(
 	id 				SERIAL PRIMARY KEY,
 	task_content 	varchar(200) NOT NULL,
 	status	 		int default 0,

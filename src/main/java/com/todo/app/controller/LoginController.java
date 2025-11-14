@@ -21,20 +21,20 @@ import com.todo.app.entity.User;
 import com.todo.app.form.LoginForm;
 import com.todo.app.form.RegisterForm;
 import com.todo.app.model.Account;
-import com.todo.app.service.TeamService;
-import com.todo.app.service.UserService;
+import com.todo.app.service.TeamServiceImpl;
+import com.todo.app.service.UserServiceImpl;
 // ログインコントローラ
 @Controller
 public class LoginController {
 	// セッション用アカウントモデル(ユーザ情報）
 	private final Account account;
 	
-	private final UserService userService;
+	private final UserServiceImpl userService;
 	
-	private final TeamService teamService;
+	private final TeamServiceImpl teamService;
 	
 	// コンストラクタ
-	public LoginController(UserService userService, TeamService teamService, Account account) {
+	public LoginController(UserServiceImpl userService, TeamServiceImpl teamService, Account account) {
 		this.userService = userService;
 		this.teamService = teamService;
 		this.account = account;
@@ -57,7 +57,7 @@ public class LoginController {
 	  
 	// ログイン画面を表示
 	@GetMapping({ "/", "/login", "/logout" })
-	public String loginDisplay(
+	public String showLoginPage(
 			LoginForm loginForm,
 			@RequestParam(name = "error", defaultValue = "") String error,
 			HttpSession session,
@@ -74,7 +74,7 @@ public class LoginController {
 
 	// ログインを実行
 	@PostMapping("/login")
-	public String login(
+	public String loginUser(
 			@Validated LoginForm loginForm,
 			BindingResult bindingResult,
 			RedirectAttributes redirectAttribute,
@@ -97,18 +97,18 @@ public class LoginController {
 	}
 	
 	// 会員登録画面を表示
-	@GetMapping("/register")
-	public String registerDisplay(
+	@GetMapping("/regist")
+	public String showRegistForm(
 			RegisterForm registerForm,
 			Model model) {
 		model.addAttribute("teamMenu",getTeamsMenu());
-		return "register";
+		return "regist";
 		
 	}
 	
 	// 会員登録を実行
-	@PostMapping("/register")
-	public String register(
+	@PostMapping("/regist")
+	public String registUser(
 			@Validated RegisterForm registerForm,
 			BindingResult bindingResult,
 			RedirectAttributes redirectAttribute,

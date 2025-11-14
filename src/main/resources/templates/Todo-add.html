@@ -13,7 +13,7 @@
 	<main class="task-center-main">
 		<div>
 		  	<table>
-			  <form method="post" th:action="@{/todo/add}" th:object="${todoForm}">
+			  <form method="post" th:action="@{/todo/add}" th:object="${taskForm}">
 				<tr>
 					<th>タスク内容</th>
 					<td><textarea th:field="*{taskContent}" rows="5" cols="40"></textarea><span th:errors="*{taskContent}" th:class="error"></span>

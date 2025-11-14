@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.todo.app.entity.Todo;
+import com.todo.app.entity.Task;
 import com.todo.app.entity.User;
-import com.todo.app.form.TodoForm;
+import com.todo.app.form.TaskForm;
 import com.todo.app.model.Account;
-import com.todo.app.service.TodoService;
-import com.todo.app.service.UserService;
+import com.todo.app.service.TaskServiceImpl;
+import com.todo.app.service.UserServiceImpl;
 
 // Todoコントローラ
 @Controller
@@ -31,15 +31,15 @@ public class TodoController {
 	// セッション用アカウントモデル(ユーザ情報）
 	private final Account account;
 	
-	private final TodoService todoService;
+	private final TaskServiceImpl taskService;
 	
-	private final UserService userService;
+	private final UserServiceImpl userService;
 	// 状態メニュー
 	private static Map<Integer, String> statusMenumap = new HashMap<>();
 
 	// コンストラクタ
-	public TodoController(TodoService todoService, UserService userService, Account account) {
-		this.todoService = todoService;
+	public TodoController(TaskServiceImpl taskService, UserServiceImpl userService, Account account) {
+		this.taskService = taskService;
 		this.userService = userService;
 		this.account = account;
 		statusMenumap.put(0, "未着手");
@@ -61,34 +61,34 @@ public class TodoController {
     private void updateList(Model model) {
     	User user = userService.findById(account.getUserId());
     	Long teamId = user.getTeam().getId();
-    	List<Todo> list = todoService.selectIncomplete(teamId);
-		List<TodoForm> forms = new ArrayList<>();
-		for (Todo todo:list) {
-			TodoForm form = new TodoForm();
-			form.setId(todo.getId());
-			form.setTaskContent(todo.getTaskContent());
-			form.setStatus(todo.getStatus());
-			form.setUserId(todo.getUser().getId());
-			form.setUserName(todo.getUser().getUserName());
-			form.setTeamName(todo.getUser().getTeam().getTeamName());
+    	List<Task> list = taskService.selectIncomplete(teamId);
+		List<TaskForm> forms = new ArrayList<>();
+		for (Task task:list) {
+			TaskForm form = new TaskForm();
+			form.setId(task.getId());
+			form.setTaskContent(task.getTaskContent());
+			form.setStatus(task.getStatus());
+			form.setUserId(task.getUser().getId());
+			form.setUserName(task.getUser().getUserName());
+			form.setTeamName(task.getUser().getTeam().getTeamName());
 			
-			form.setDueDate(todo.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			form.setDueDate(task.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			forms.add(form);
 		}
 		model.addAttribute("todos",forms);
 		
-		List<Todo> doneList = todoService.selectComplete(teamId);
-		List<TodoForm> doneForms = new ArrayList<>();
-		for (Todo todo:doneList) {
-			TodoForm form = new TodoForm();
-			form.setId(todo.getId());
-			form.setTaskContent(todo.getTaskContent());
-			form.setStatus(todo.getStatus());
-			form.setUserId(todo.getUser().getId());
-			form.setUserName(todo.getUser().getUserName());
-			form.setTeamName(todo.getUser().getTeam().getTeamName());
+		List<Task> doneList = taskService.selectComplete(teamId);
+		List<TaskForm> doneForms = new ArrayList<>();
+		for (Task task:doneList) {
+			TaskForm form = new TaskForm();
+			form.setId(task.getId());
+			form.setTaskContent(task.getTaskContent());
+			form.setStatus(task.getStatus());
+			form.setUserId(task.getUser().getId());
+			form.setUserName(task.getUser().getUserName());
+			form.setTeamName(task.getUser().getTeam().getTeamName());
 			
-			form.setDueDate(todo.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			form.setDueDate(task.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			doneForms.add(form);
 		}
 
@@ -99,20 +99,20 @@ public class TodoController {
     
     // Todoリスト表示
 	@GetMapping("/list")
-	public String list(TodoForm todoForm, Model model) {
+	public String showListPage(TaskForm todoForm, Model model) {
 		updateList(model);
 		return "Todo-list";
 	}
 	
 	@GetMapping("/add")
-	public String addForm(TodoForm todoForm, Model model) {
+	public String showAddTaskForm(TaskForm todoForm, Model model) {
 		return "Todo-add";
 	}
 	
 	// Todo追加
 	@PostMapping("/add")
-	public String add(
-			@Validated TodoForm todoForm,
+	public String addTask(
+			@Validated TaskForm taskForm,
 			BindingResult bindingResult,
 			RedirectAttributes redirectAttribute,
 			Model model) {
@@ -122,41 +122,41 @@ public class TodoController {
 			updateList(model);
 			return "Todo-list";
 		}
-		Todo todo = new Todo();
-		todo.setTaskContent(todoForm.getTaskContent());
-		todo.setDueDate(LocalDate.parse(todoForm.getDueDate()));
-		todo.setStatus(0);
+		Task task = new Task();
+		task.setTaskContent(taskForm.getTaskContent());
+		task.setDueDate(LocalDate.parse(taskForm.getDueDate()));
+		task.setStatus(0);
 		User user = userService.findById(account.getUserId()); 
 
-		todo.setUser(user);
-		todoService.add(todo);
+		task.setUser(user);
+		taskService.add(task);
 		
 		return "redirect:/todo/list";
 	}
 	
 	// Todo更新
 	@PostMapping("/update/{id}")
-	public String update(
+	public String updateTask(
 			@PathVariable Long id, 
-			@Validated TodoForm todoForm) {
+			@Validated TaskForm todoForm) {
 
-		Todo todo = new Todo();
-		todo.setId(id);
-		todo.setTaskContent(todoForm.getTaskContent());
-		todo.setDueDate(LocalDate.parse(todoForm.getDueDate()));
+		Task task = new Task();
+		task.setId(id);
+		task.setTaskContent(todoForm.getTaskContent());
+		task.setDueDate(LocalDate.parse(todoForm.getDueDate()));
 		
-		todo.setStatus(todoForm.getStatus());
+		task.setStatus(todoForm.getStatus());
 		User user = userService.findById(account.getUserId()); 
 
-		todo.setUser(user);
-		todoService.update(todo);
+		task.setUser(user);
+		taskService.update(task);
 		return "redirect:/todo/list";
 	}
 	
 	// Todo削除
 	@PostMapping("/delete/{id}")
-	public String delete(@PathVariable Long id) {
-		todoService.delete(id);
+	public String deleteTask(@PathVariable Long id) {
+		taskService.delete(id);
 		return "redirect:/todo/list";
 	}
 }

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 // TODOフォーム
 @Data
-public class TodoForm {
+public class TaskForm {
 	public Long id;
 	
     @Size(min = 1, max = 200, message = "{0}は{1}文字以上{2}文字以下で入力してください。")

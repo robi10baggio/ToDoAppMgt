@@ -14,9 +14,9 @@ import jakarta.persistence.Table;
 import lombok.Data;
 // TODOエンティティ
 @Entity
-@Table(name="todos")
+@Table(name="tasks")
 @Data
-public class Todo {
+public class Task {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
