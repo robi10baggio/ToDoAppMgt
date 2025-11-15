@@ -119,8 +119,7 @@ public class TodoController {
 
 		//バリデーションチェック
 		if (bindingResult.hasErrors()) {
-			updateList(model);
-			return "Todo-list";
+			return "Todo-add";
 		}
 		Task task = new Task();
 		task.setTaskContent(taskForm.getTaskContent());

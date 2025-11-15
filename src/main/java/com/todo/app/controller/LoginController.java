@@ -114,11 +114,11 @@ public class LoginController {
 			RedirectAttributes redirectAttribute,
 			Model model) {
 		if (bindingResult.hasErrors()) {
-			return "register";
+			return "regist";
 		}
 		if (!registerForm.getPassword().equals(registerForm.getCheckPassword())) {
 			model.addAttribute("message", "パスワードが一致しません。");
-			return "register";
+			return "regist";
 		}
 		User user = new User();
 		user.setUserId(registerForm.getUserId());
@@ -130,7 +130,7 @@ public class LoginController {
 			userService.regist(user);
 		} catch (DataIntegrityViolationException e) {
 			model.addAttribute("message", "既にユーザIDは登録されています。");
-			return "register";
+			return "regist";
 		}
 		model.addAttribute("teamMenu",getTeamsMenu());
 		return "redirect:/login";
