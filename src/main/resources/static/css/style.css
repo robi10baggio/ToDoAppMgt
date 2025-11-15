@@ -50,6 +50,15 @@ input[type="date"] {
   box-sizing: border-box;
 }
 
+/*selectのスタイル */
+select {
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
 /* ボタンのスタイル */
 button {
   width: 80%;
