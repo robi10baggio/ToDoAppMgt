@@ -27,29 +27,31 @@
 				<th>削除</th>
 			</tr>
 			<tr th:each="todo : ${todos}" th:object="${todo}">
-			  	<form method="post" th:action="@{/todo/update/{id}(id=*{id})}" >
-					<td>
-						<select id="status" name="status">
-						    <option th:each="item : ${statusMenu}"
-						            th:value="${item.key}"
-						            th:text="${item.value}"
-						            th:selected="${item.key == todo.status}">
-						    </option>
-						</select>
-					</td>
-				    <td>
-						<textarea name="taskContent" th:text="*{taskContent}" rows="5" cols="40"></textarea>
-					</td>
-					<td th:text="*{teamName}" ></td>
-					<td th:text="*{userName}" ></td>
-				    <td>
-						<input type="date" name="dueDate" th:value="*{dueDate}" />
-					</td>
-				    <td th:if="${account.userId == todo.userId}">
-						<button>更新</button>
-					</td>
-					<td th:unless="${account.userId == todo.userId}"></td>
+				<td>
+				<form method="post" th:action="@{/todo/update/{id}(id=*{id})}" >
+					<select id="status" name="status">
+						<option th:each="item : ${statusMenu}"
+						 	th:value="${item.key}"
+						  	th:text="${item.value}"
+						  	th:selected="${item.key == todo.status}">
+						</option>
+					</select>
+				</td>
+				<td>
+					<textarea name="taskContent" th:text="*{taskContent}" rows="5" cols="40"></textarea>
+				</td>
+				<td th:text="*{teamName}" ></td>
+				<td th:text="*{userName}" ></td>
+				<td>
+					<input type="date" name="dueDate" th:value="*{dueDate}" />
+				</td>
+				<td th:if="${account.userId == todo.userId}">
+					<button>更新</button>
 				</form>
+				</td>
+				<td th:unless="${account.userId == todo.userId}">
+				</form>	
+				</td>
 				<td th:if="${account.userId == todo.userId}">
 					<form method="post" th:action="@{/todo/delete/{id}(id=*{id})}" >
 						<button>削除</button>
@@ -73,30 +75,31 @@
 					<th>削除</th>
 				</tr>
 				<tr th:each="todo : ${doneTodos}" th:object="${todo}">
+					<td>
 					<form method="post" th:action="@{/todo/update/{id}(id=*{id})}" >
-					    <td>
-							<select id="status" name="status">
-								<option th:each="item : ${statusMenu}"
-									th:value="${item.key}"
-									th:text="${item.value}"
-									th:selected="${item.key == todo.status}">
-								</option>
-							</select>
-						</td>
-					    <td>
-							<textarea name="taskContent" th:text="*{taskContent}" style="text-decoration:line-through" rows="5" cols="40"></textarea>
-						</td>
-						<td th:text="*{teamName}" ></td>
-						<td th:text="*{userName}" ></td>
-						<td>
-							<input type="date" name="dueDate" th:value="*{dueDate}" />
-						</td>
-						<td th:if="${account.userId == todo.userId}">
-							<button>更新</button>
-						</td>
-						<td th:unless="${account.userId == todo.userId}">
-						</td>
-					 </form>
+						<select id="status" name="status">
+							<option th:each="item : ${statusMenu}"
+								th:value="${item.key}"
+								th:text="${item.value}"
+								th:selected="${item.key == todo.status}">
+							</option>
+						</select>
+					</td>
+					<td>
+						<textarea name="taskContent" th:text="*{taskContent}" style="text-decoration:line-through" rows="5" cols="40"></textarea>
+					</td>
+					<td th:text="*{teamName}" ></td>
+					<td th:text="*{userName}" ></td>
+					<td>
+						<input type="date" name="dueDate" th:value="*{dueDate}" />
+					</td>
+					<td th:if="${account.userId == todo.userId}">
+						<button>更新</button>
+					</form>
+					</td>
+					<td th:unless="${account.userId == todo.userId}">
+					</form>
+					</td>
 					 <td th:if="${account.userId == todo.userId}">
 					 	<form method="post" th:action="@{/todo/delete/{id}(id=*{id})}"  th:object="${todo}">
 						 	<button>削除</button>
