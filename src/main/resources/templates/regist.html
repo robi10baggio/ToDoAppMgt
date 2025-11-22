@@ -13,8 +13,8 @@
 		<div>
 			<p><span th:text="${message}" th:class="error"></span></p>
 		</div>
-		<table>
-			<form th:action="@{/regist}" method="post" th:object="${registerForm}">
+		<form th:action="@{/regist}" method="post" th:object="${registerForm}">
+			<table>
 				<tr>
 					<th>ユーザID</th>
 						<td>
@@ -55,11 +55,9 @@
 						<p><button>登録</button></p>
 						
 					</td>
-					
 				</tr>
-			</form>
-			</tr>
-		</table>
+			</table>
+		</form>
 		<a href="/login">ログイン画面に戻る</a>
 	</main>
 </body>
